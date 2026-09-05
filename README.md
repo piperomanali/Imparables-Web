@@ -1,13 +1,21 @@
-# Imparables V5
+# Imparables Web — V6
 
-Prototipo visual centrado en la idea, no en el fundador. Home editorial, cálido y humano.
+Versión V6 de la web de Imparables.
 
-## Idea central
-- La vida no termina con un diagnóstico.
-- Personas reales, no estética hospitalaria.
-- Educamos. Acompañamos. Defendemos.
-- Tus derechos son parte central, no un añadido.
-- LMC es el origen; Imparables crece hacia otras condiciones crónicas.
+## Enfoque
+- LMC primero.
+- Preguntas antes que menús.
+- Comunidad real, no directorios vacíos.
+- Registro antes de participar.
+- Tratamientos explicados en lenguaje humano, empezando por nilotinib.
+- Derechos como parte central de la identidad.
+- Observatorio de investigación.
+- Fundador visible sin convertir la web en una página personal.
+- Diseño mobile-first.
 
-## Nota
-Las fotografías externas del prototipo se cargan desde Wikimedia Commons. Para producción conviene reemplazarlas por una biblioteca propia de imágenes autorizadas de la comunidad.
+## Publicación
+Sube el contenido de esta carpeta a la raíz del repositorio `piperomanali/Imparables-Web`.
+Vercel debe desplegar automáticamente los cambios conectados a la rama `main`.
+
+## Nota médica
+La información de salud es educativa y no reemplaza indicaciones médicas.
