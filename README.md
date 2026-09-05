@@ -1,28 +1,3 @@
-# Imparables Web — V6
+# Imparables Web
 
-Versión V6 de la web de Imparables.
-
-## Enfoque
-- LMC primero.
-- Preguntas antes que menús.
-- Comunidad real, no directorios vacíos.
-- Registro antes de participar.
-- Tratamientos explicados en lenguaje humano, empezando por nilotinib.
-- Derechos como parte central de la identidad.
-- Observatorio de investigación.
-- Fundador visible sin convertir la web en una página personal.
-- Diseño mobile-first.
-
-## Publicación
-Sube el contenido de esta carpeta a la raíz del repositorio `piperomanali/Imparables-Web`.
-Vercel debe desplegar automáticamente los cambios conectados a la rama `main`.
-
-## Nota médica
-La información de salud es educativa y no reemplaza indicaciones médicas.
-
-## V6.1
-- Corrige logo y foto de fundador.
-- Logo oficial recortado sin alterar su arte.
-- Hero con imagen humana.
-- Nuevo bloque Voces Imparables.
-- Assets incluidos para evitar imágenes rotas.
+Entrega de trabajo con contenido ampliado para LMC, derechos, investigación, comunidad, historias y tratamientos.
