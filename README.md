@@ -19,3 +19,10 @@ Vercel debe desplegar automáticamente los cambios conectados a la rama `main`.
 
 ## Nota médica
 La información de salud es educativa y no reemplaza indicaciones médicas.
+
+## V6.1
+- Corrige logo y foto de fundador.
+- Logo oficial recortado sin alterar su arte.
+- Hero con imagen humana.
+- Nuevo bloque Voces Imparables.
+- Assets incluidos para evitar imágenes rotas.

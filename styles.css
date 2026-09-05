@@ -92,3 +92,49 @@ footer{padding:48px 5vw 36px;background:#fff;border-top:1px solid var(--line);di
   .founder-actions .btn{width:100%}.v6 .footer-brand img{width:225px!important}
   .article-hero{padding:60px 20px 45px}.article-hero h1{font-size:58px}.article-grid{padding:45px 20px;grid-template-columns:1fr}.source-panel{margin:0 20px 50px;padding:27px;grid-template-columns:1fr}.article-cta h2{font-size:44px}
 }
+
+
+/* IMPARABLES V6.1 — repaired assets + richer human visuals */
+.v6 .brand img{width:300px!important;height:74px!important;object-fit:contain!important;object-position:left center!important}
+.v6 .footer-brand img{width:285px!important;height:auto!important;object-fit:contain!important}
+
+.hero-photo-collage{position:relative;min-height:560px}
+.hero-main-photo{position:absolute;inset:0 58px 78px 0;margin:0;border-radius:36px;overflow:hidden;box-shadow:0 30px 70px rgba(22,48,82,.17);background:#EAF3FA}
+.hero-main-photo img{width:100%;height:100%;display:block;object-fit:cover;object-position:center}
+.hero-main-photo:after{content:"";position:absolute;inset:auto 0 0 0;height:45%;background:linear-gradient(transparent,rgba(5,29,63,.78))}
+.hero-main-photo figcaption{position:absolute;z-index:2;left:30px;right:30px;bottom:28px;color:white}
+.hero-main-photo figcaption span{display:block;font-size:10px;letter-spacing:.18em;font-weight:900;margin-bottom:8px}
+.hero-main-photo figcaption strong{display:block;max-width:330px;font-family:Georgia,serif;font-size:30px;line-height:1.04}
+.hero-photo-collage .human-two{z-index:4;right:0;bottom:0}.hero-photo-collage .red-dot{z-index:5}
+
+.voices-v61{background:#fff}
+.voices-grid{display:grid;grid-template-columns:1fr .9fr 1fr;gap:16px;align-items:stretch}
+.voice-photo-card,.voice-text-card{min-height:420px;border-radius:30px;overflow:hidden;position:relative}
+.voice-photo-card{background:#eaf2f8}.voice-photo-card img{width:100%;height:100%;object-fit:cover;display:block}
+.voice-photo-card:after{content:"";position:absolute;inset:35% 0 0;background:linear-gradient(transparent,rgba(5,29,63,.84))}
+.voice-photo-card>div{position:absolute;z-index:2;left:25px;right:25px;bottom:24px;color:white}
+.voice-photo-card small{display:block;letter-spacing:.15em;font-weight:900;margin-bottom:8px}
+.voice-photo-card strong{display:block;font-family:Georgia,serif;font-size:28px;line-height:1.05}
+.voice-text-card{background:var(--navy);color:white;padding:34px;display:flex;flex-direction:column;justify-content:center}
+.voice-text-card .quote-mark{color:var(--red);font-size:72px;line-height:.5}
+.voice-text-card p{font-family:Georgia,serif;font-size:31px;line-height:1.12}
+.voice-text-card small{color:#bad7ef}
+.founder-v6{grid-template-columns:.68fr 1.32fr}
+.founder-image img{aspect-ratio:4/5;object-fit:cover;object-position:center top;max-height:620px}
+
+@media(max-width:1000px){
+  .voices-grid{grid-template-columns:1fr 1fr}
+  .voice-text-card{grid-column:span 2}
+}
+@media(max-width:640px){
+  .v6 .brand img{width:235px!important;height:58px!important}
+  .hero-photo-collage{min-height:430px}
+  .hero-main-photo{inset:0 22px 72px 0;border-radius:28px}
+  .hero-main-photo figcaption{left:22px;bottom:22px}
+  .hero-main-photo figcaption strong{font-size:25px}
+  .voices-grid{grid-template-columns:1fr}
+  .voice-text-card{grid-column:auto}
+  .voice-photo-card,.voice-text-card{min-height:340px}
+  .voice-text-card p{font-size:27px}
+  .founder-image img{max-height:470px}
+}
