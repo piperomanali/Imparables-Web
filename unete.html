@@ -172,7 +172,7 @@
 
           <div class="field">
             <label for="diagnostico">Diagnóstico / comunidad</label>
-            <select id="diagnostico" name="diagnostico">
+            <select id="diagnostico" name="diagnostico" required>
               <option value="LMC">Leucemia Mieloide Crónica (LMC)</option>
               <option value="Otro">Otro / todavía no está listado</option>
               <option value="No aplica">No aplica</option>
@@ -249,6 +249,40 @@
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
 
+      // Validate required fields and show exactly what is missing.
+      const requiredFields = [
+        ['nombre', 'Nombre completo'],
+        ['email', 'Correo electrónico'],
+        ['password', 'Contraseña'],
+        ['pais', 'País'],
+        ['rango_edad', 'Rango de edad'],
+        ['tipo', 'Tipo de miembro'],
+        ['diagnostico', 'Diagnóstico / comunidad']
+      ];
+
+      const missing = requiredFields
+        .filter(([id]) => {
+          const el = document.getElementById(id);
+          return !el || !String(el.value || '').trim();
+        })
+        .map(([, label]) => label);
+
+      const privacyEl = document.getElementById('privacy');
+      const healthEl = document.getElementById('healthConsent');
+
+      if (!privacyEl?.checked) missing.push('Aceptar la política de privacidad');
+      if (!healthEl?.checked) missing.push('Autorizar el tratamiento de datos de salud');
+
+      if (missing.length) {
+        showMessage('Te falta completar: ' + missing.join(', ') + '.', 'error');
+        const firstMissingId = requiredFields.find(([id]) => {
+          const el = document.getElementById(id);
+          return !el || !String(el.value || '').trim();
+        })?.[0];
+        if (firstMissingId) document.getElementById(firstMissingId)?.focus();
+        return;
+      }
+
       submitButton.disabled = true;
       submitButton.textContent = 'CREANDO TU CUENTA...';
       showMessage('Conectando con Imparables…', '');
@@ -273,7 +307,7 @@
           diagnostico: get('diagnostico').value,
           anio_diagnostico: get('anio').value,
           medicamento_actual: get('medicamento').value,
-          intereses,
+          interests,
           quiere_whatsapp: get('wantWhatsApp').checked,
           quiere_investigacion: get('wantResearch').checked,
           quiere_contar_historia: get('wantStory').checked,
