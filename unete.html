@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Hazte miembro — Imparables</title>
   <meta name="description" content="Hazte miembro de Imparables LMC Latinoamérica. Registro gratuito y seguro.">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
   <style>
     :root {
       --navy:#0A2F6B; --blue:#1E5DB8; --sky:#8BB7EE; --cream:#F7F1E7;
@@ -109,12 +109,52 @@
 
           <div class="field">
             <label for="pais">País</label>
-            <input id="pais" name="pais" autocomplete="country-name" required>
+            <select id="pais" name="pais" required>
+              <option value="">Selecciona tu país</option>
+              <option>Colombia</option>
+              <option>Argentina</option>
+              <option>Bolivia</option>
+              <option>Brasil</option>
+              <option>Chile</option>
+              <option>Costa Rica</option>
+              <option>Cuba</option>
+              <option>Ecuador</option>
+              <option>El Salvador</option>
+              <option>Guatemala</option>
+              <option>Honduras</option>
+              <option>México</option>
+              <option>Nicaragua</option>
+              <option>Panamá</option>
+              <option>Paraguay</option>
+              <option>Perú</option>
+              <option>Puerto Rico</option>
+              <option>República Dominicana</option>
+              <option>Uruguay</option>
+              <option>Venezuela</option>
+              <option>España</option>
+              <option>Estados Unidos</option>
+              <option>Canadá</option>
+              <option>Otro país</option>
+            </select>
           </div>
 
           <div class="field">
             <label for="ciudad">Ciudad</label>
             <input id="ciudad" name="ciudad" autocomplete="address-level2">
+          </div>
+
+          <div class="field">
+            <label for="rango_edad">Rango de edad</label>
+            <select id="rango_edad" name="rango_edad" required>
+              <option value="">Selecciona</option>
+              <option>Menor de 18</option>
+              <option>18–29</option>
+              <option>30–39</option>
+              <option>40–49</option>
+              <option>50–59</option>
+              <option>60–69</option>
+              <option>70 o más</option>
+            </select>
           </div>
 
           <div class="field">
@@ -196,7 +236,6 @@
   <script>
     const SUPABASE_URL = 'https://cbvigdnpzmwgkhhmalpe.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_IWLsfsqg4TxBROS5LoN_sQ_e9-LLRgH1';
-    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     const form = document.getElementById('memberForm');
     const message = document.getElementById('message');
@@ -218,8 +257,9 @@
 
       const metadata = {
         nombre_completo: document.getElementById('nombre').value.trim(),
-        pais: document.getElementById('pais').value.trim(),
+        pais: document.getElementById('pais').value,
         ciudad: document.getElementById('ciudad').value.trim(),
+        rango_edad: document.getElementById('rango_edad').value,
         tipo_miembro: document.getElementById('tipo').value,
         diagnostico: document.getElementById('diagnostico').value,
         anio_diagnostico: document.getElementById('anio').value,
@@ -233,26 +273,48 @@
       };
 
       try {
-        const { data, error } = await supabaseClient.auth.signUp({
-          email: document.getElementById('email').value.trim(),
-          password: document.getElementById('password').value,
-          options: {
-            emailRedirectTo: 'https://imparablesv5-2.vercel.app/unete.html?confirmado=1',
-            data: metadata
-          }
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 15000);
+
+        const response = await fetch(`${SUPABASE_URL}/auth/v1/signup`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': SUPABASE_KEY
+          },
+          body: JSON.stringify({
+            email: document.getElementById('email').value.trim(),
+            password: document.getElementById('password').value,
+            data: metadata,
+            gotrue_meta_security: {}
+          }),
+          signal: controller.signal
         });
 
-        if (error) throw error;
+        clearTimeout(timeout);
 
-        if (data.session) {
-          showMessage('¡Bienvenido a Imparables! Tu cuenta quedó creada correctamente.', 'ok');
-        } else {
-          showMessage('¡Ya casi! Revisa tu correo y confirma tu cuenta. Después volverás a Imparables.', 'ok');
+        let data = {};
+        try { data = await response.json(); } catch (_) {}
+
+        if (!response.ok) {
+          const detail = data.msg || data.message || data.error_description || data.error || `Error ${response.status}`;
+          throw new Error(detail);
         }
+
+        showMessage(
+          '¡Registro recibido! Revisa tu correo para confirmar tu cuenta y completar tu ingreso a Imparables.',
+          'ok'
+        );
         form.reset();
+
       } catch (error) {
         console.error(error);
-        const text = (error && error.message) ? error.message : 'No pudimos completar el registro.';
+        let text = 'No pudimos completar el registro.';
+        if (error && error.name === 'AbortError') {
+          text = 'La conexión con el registro tardó demasiado. Intenta nuevamente.';
+        } else if (error && error.message) {
+          text = error.message;
+        }
         showMessage('No pudimos completar el registro: ' + text, 'error');
       } finally {
         submitButton.disabled = false;
