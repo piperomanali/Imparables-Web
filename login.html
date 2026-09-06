@@ -322,7 +322,7 @@ forgotLink.addEventListener('click', async (event) => {
   }
 
   try {
-    const response = await fetch(`${SUPABASE_URL}/auth/v1/recover`, {
+    const response = await fetch(`${SUPABASE_URL}/auth/v1/recover?redirect_to=${encodeURIComponent('https://imparablesv5-2.vercel.app/reset-password.html')}`, {
       method:'POST',
       headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY},
       body:JSON.stringify({email})
