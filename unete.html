@@ -94,22 +94,22 @@
         <form id="memberForm" class="grid">
           <div class="field full">
             <label for="nombre">Nombre completo</label>
-            <input id="nombre" name="nombre" autocomplete="name" required>
+            <input id="nombre" name="nombre" autocomplete="name">
           </div>
 
           <div class="field">
             <label for="email">Correo electrónico</label>
-            <input id="email" name="email" type="email" autocomplete="email" required>
+            <input id="email" name="email" type="email" autocomplete="email">
           </div>
 
           <div class="field">
             <label for="password">Crea una contraseña</label>
-            <input id="password" name="password" type="password" autocomplete="new-password" minlength="8" required>
+            <input id="password" name="password" type="password" autocomplete="new-password" minlength="8">
           </div>
 
           <div class="field">
             <label for="pais">País</label>
-            <select id="pais" name="pais" required>
+            <select id="pais" name="pais">
               <option value="">Selecciona tu país</option>
               <option>Colombia</option>
               <option>Argentina</option>
@@ -145,7 +145,7 @@
 
           <div class="field">
             <label for="rango_edad">Rango de edad</label>
-            <select id="rango_edad" name="rango_edad" required>
+            <select id="rango_edad" name="rango_edad">
               <option value="">Selecciona</option>
               <option>Menor de 18</option>
               <option>18–29</option>
@@ -159,7 +159,7 @@
 
           <div class="field">
             <label for="tipo">Soy</label>
-            <select id="tipo" name="tipo" required>
+            <select id="tipo" name="tipo">
               <option value="">Selecciona</option>
               <option>Paciente</option>
               <option>Familiar / cuidador</option>
@@ -172,7 +172,7 @@
 
           <div class="field">
             <label for="diagnostico">Diagnóstico / comunidad</label>
-            <select id="diagnostico" name="diagnostico" required>
+            <select id="diagnostico" name="diagnostico">
               <option value="LMC">Leucemia Mieloide Crónica (LMC)</option>
               <option value="Otro">Otro / todavía no está listado</option>
               <option value="No aplica">No aplica</option>
@@ -213,12 +213,12 @@
           </div>
 
           <div class="consent">
-            <input id="privacy" type="checkbox" required>
+            <input id="privacy" type="checkbox">
             <label for="privacy">Acepto la política de privacidad y autorizo el tratamiento de mis datos para gestionar mi membresía.</label>
           </div>
 
           <div class="consent">
-            <input id="healthConsent" type="checkbox" required>
+            <input id="healthConsent" type="checkbox">
             <label for="healthConsent">Autorizo expresamente el tratamiento de los datos relacionados con salud que decida suministrar en este registro.</label>
           </div>
 
@@ -249,7 +249,7 @@
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
 
-      // Validate required fields and show exactly what is missing.
+      // Validate fields and show exactly what is missing.
       const requiredFields = [
         ['nombre', 'Nombre completo'],
         ['email', 'Correo electrónico'],
@@ -307,7 +307,7 @@
           diagnostico: get('diagnostico').value,
           anio_diagnostico: get('anio').value,
           medicamento_actual: get('medicamento').value,
-          interests,
+          intereses: interests,
           quiere_whatsapp: get('wantWhatsApp').checked,
           quiere_investigacion: get('wantResearch').checked,
           quiere_contar_historia: get('wantStory').checked,
