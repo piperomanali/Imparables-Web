@@ -248,74 +248,89 @@
 
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
-      message.className = 'message';
+
       submitButton.disabled = true;
       submitButton.textContent = 'CREANDO TU CUENTA...';
-
-      const interests = Array.from(document.querySelectorAll('input[name="intereses"]:checked'))
-        .map(el => el.value);
-
-      const metadata = {
-        nombre_completo: document.getElementById('nombre').value.trim(),
-        pais: document.getElementById('pais').value,
-        ciudad: document.getElementById('ciudad').value.trim(),
-        rango_edad: document.getElementById('rango_edad').value,
-        tipo_miembro: document.getElementById('tipo').value,
-        diagnostico: document.getElementById('diagnostico').value,
-        anio_diagnostico: document.getElementById('anio').value,
-        medicamento_actual: document.getElementById('medicamento').value,
-        intereses,
-        quiere_whatsapp: document.getElementById('wantWhatsApp').checked,
-        quiere_investigacion: document.getElementById('wantResearch').checked,
-        quiere_contar_historia: document.getElementById('wantStory').checked,
-        acepta_privacidad: document.getElementById('privacy').checked,
-        acepta_datos_salud: document.getElementById('healthConsent').checked
-      };
+      showMessage('Conectando con Imparables…', '');
 
       try {
-        const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 15000);
+        const interests = Array.from(
+          document.querySelectorAll('input[name="intereses"]:checked')
+        ).map(el => el.value);
 
-        const response = await fetch(`${SUPABASE_URL}/auth/v1/signup`, {
+        const get = (id) => {
+          const el = document.getElementById(id);
+          if (!el) throw new Error(`Falta el campo ${id} en el formulario.`);
+          return el;
+        };
+
+        const metadata = {
+          nombre_completo: get('nombre').value.trim(),
+          pais: get('pais').value,
+          ciudad: get('ciudad').value.trim(),
+          rango_edad: get('rango_edad').value,
+          tipo_miembro: get('tipo').value,
+          diagnostico: get('diagnostico').value,
+          anio_diagnostico: get('anio').value,
+          medicamento_actual: get('medicamento').value,
+          intereses,
+          quiere_whatsapp: get('wantWhatsApp').checked,
+          quiere_investigacion: get('wantResearch').checked,
+          quiere_contar_historia: get('wantStory').checked,
+          quiere_eventos: !!document.getElementById('wantEvents')?.checked,
+          acepta_privacidad: get('privacy').checked,
+          acepta_datos_salud: get('healthConsent').checked
+        };
+
+        showMessage('Enviando tu registro…', '');
+
+        const request = fetch(`${SUPABASE_URL}/auth/v1/signup`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'apikey': SUPABASE_KEY
           },
           body: JSON.stringify({
-            email: document.getElementById('email').value.trim(),
-            password: document.getElementById('password').value,
-            data: metadata,
-            gotrue_meta_security: {}
-          }),
-          signal: controller.signal
+            email: get('email').value.trim(),
+            password: get('password').value,
+            data: metadata
+          })
         });
 
-        clearTimeout(timeout);
+        const timeout = new Promise((_, reject) =>
+          setTimeout(() => reject(new Error('La conexión tardó más de 12 segundos.')), 12000)
+        );
+
+        const response = await Promise.race([request, timeout]);
 
         let data = {};
-        try { data = await response.json(); } catch (_) {}
+        try {
+          data = await response.json();
+        } catch (_) {}
 
         if (!response.ok) {
-          const detail = data.msg || data.message || data.error_description || data.error || `Error ${response.status}`;
+          const detail =
+            data.msg ||
+            data.message ||
+            data.error_description ||
+            data.error ||
+            `Error ${response.status}`;
           throw new Error(detail);
         }
 
         showMessage(
-          '¡Registro recibido! Revisa tu correo para confirmar tu cuenta y completar tu ingreso a Imparables.',
+          '¡Registro recibido! Revisa tu correo para confirmar tu cuenta.',
           'ok'
         );
         form.reset();
 
       } catch (error) {
         console.error(error);
-        let text = 'No pudimos completar el registro.';
-        if (error && error.name === 'AbortError') {
-          text = 'La conexión con el registro tardó demasiado. Intenta nuevamente.';
-        } else if (error && error.message) {
-          text = error.message;
-        }
-        showMessage('No pudimos completar el registro: ' + text, 'error');
+        showMessage(
+          'No pudimos completar el registro: ' +
+          (error?.message || 'error desconocido'),
+          'error'
+        );
       } finally {
         submitButton.disabled = false;
         submitButton.textContent = 'QUIERO SER IMPARABLE';
